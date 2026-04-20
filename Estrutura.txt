@@ -1,0 +1,9 @@
+Estructura de proyecto:
+
+Parte gráfica:
+
+la denominación es la siguiente: funcionalidadClaseCampotipo
+- Los campos donde puedo escribir son Label
+- Los botones Button
+- Los campos donde no puedo escribir pero pinto información son Textfield
+- Las tablas son tables
