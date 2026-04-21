@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+
+    <property name="connection.url">jdbc:mysql://localhost:3306/hefestoData</property>
+    <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">12345</property>
+
+
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.format_sql">true</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
+    <mapping class="core.domain.Cliente"/>
+    <mapping class="core.autentication.Empresa"/>
+    <mapping class="com.josan.pedido.EstadoPedido"/>
+    <mapping class="com.josan.pedido.Pedido"/>
+    <mapping class="core.domain.Producto"/>
+    <mapping class="com.josan.pedido.ProductoPedido"/>
+    <mapping class="com.josan.pedido.Proveedor"/>
+    <mapping class="com.josan.infordat.Tarifa"/>
+    <mapping class="core.domain.Usuario"/>
+    <mapping class="core.venta.Venta"/>
+    <mapping class="core.venta.VentaProducto"/>
+
+
+  </session-factory>
+</hibernate-configuration>
