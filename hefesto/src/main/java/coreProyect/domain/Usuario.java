@@ -1,4 +1,4 @@
-package core.domain;
+package coreProyect.domain;
 
 import jakarta.persistence.*;
 

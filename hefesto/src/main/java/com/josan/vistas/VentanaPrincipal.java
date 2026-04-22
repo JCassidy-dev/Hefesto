@@ -4,6 +4,7 @@ import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 // Clase que representa la ventana principal de la aplicación, con pestañas para diferentes secciones como Clientes, Productos, etc.
 public class VentanaPrincipal {
@@ -18,33 +19,38 @@ public class VentanaPrincipal {
     private JPanel panelPedidos;
     private JPanel panelUsuario;
     private JPanel panelAyuda;
-    // Panel para la sección de Clientes
-    private JPanel panelClientes;
+
     // Campos de texto y etiquetas para la gestión de clientes
-    private JTextField nombreClienteLabel;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JButton crearClienteButton;
-    private JButton buscarClienteButton;
-    private JButton limpiarClienteButton;
-    private JButton eliminarClienteButton;
-    private JLabel historicoGasto;
-    private JTable table1;
-    private JLabel idCliente;
+    public JPanel panelClientes;
+    public JTextField nombreClienteLabel;
+    public JTextField cifClienteLabel;
+    public JTextField direccionClienteLabel;
+    public JButton crearClienteButton;
+    public JButton modificarClienteButton;
+    public JButton buscarClienteButton;
+    public JButton limpiarClienteButton;
+    public JButton eliminarClienteButton;
+    public JLabel historicoGastoTextfield;
+    public JTable mostrarClienteTabla;
+    public JLabel idClienteTextfield;
+    public DefaultTableModel dtmClientes;
+
     // Campos para la sección de Productos
-    private JTextField productoSkuLabel;
-    private JLabel idProductoTextfield;
-    private JTextField nombreProductoLabel;
-    private JTextField aliasProductoLabel;
-    private JTextField eanProductoLabel;
-    private JTextField descripcionProductoLabel;
-    private JTextField precioProductoLabel;
-    private JButton crearProductoButton;
-    private JButton buscarProductoButton;
-    private JButton limpiarProductoButton;
-    private JButton eliminarProductoButton;
-    private JLabel stockProductoLabel;
-    private JTable mostrarProductoTabla;
+    public JTextField productoSkuLabel;
+    public JLabel idProductoTextfield;
+    public JTextField nombreProductoLabel;
+    public JTextField aliasProductoLabel;
+    public JTextField eanProductoLabel;
+    public JTextField descripcionProductoLabel;
+    public JTextField precioProductoLabel;
+    public JButton crearProductoButton;
+    public JButton modificarProductoButton;
+    public JButton buscarProductoButton;
+    public JButton limpiarProductoButton;
+    public JButton eliminarProductoButton;
+    public JLabel stockProductoTextfield;
+    public JTable mostrarProductoTabla;
+    public DefaultTableModel dtmProductos;
 
     // Bloque inicializador para configurar la interfaz de usuario al crear la instancia
     {
@@ -70,12 +76,12 @@ public class VentanaPrincipal {
         // Crear el panel para Clientes
         panelClientes = new JPanel();
         // Establecer el layout para el panel de Clientes
-        panelClientes.setLayout(new FormLayout("fill:max(d;4px):noGrow,left:4dlu:noGrow,fill:d:grow", "center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow"));
+        panelClientes.setLayout(new FormLayout("fill:max(d;4px):noGrow,left:4dlu:noGrow,fill:d:grow", "center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:max(d;4px):noGrow,top:4dlu:noGrow,center:d:grow"));
         // Agregar la pestaña de Clientes
         tabbedPane1.addTab("Clientes", panelClientes);
         // Campo de texto para CIF
-        textField2 = new JTextField();
-        panelClientes.add(textField2, cc.xy(3, 5, CellConstraints.FILL, CellConstraints.DEFAULT));
+        cifClienteLabel = new JTextField();
+        panelClientes.add(cifClienteLabel, cc.xy(3, 5, CellConstraints.FILL, CellConstraints.DEFAULT));
         // Etiqueta para Nombre
         final JLabel label1 = new JLabel();
         label1.setText("Nombre");
@@ -89,16 +95,16 @@ public class VentanaPrincipal {
         label3.setText("Dirección");
         panelClientes.add(label3, cc.xy(1, 7));
         // Campo de texto para Dirección
-        textField3 = new JTextField();
-        panelClientes.add(textField3, cc.xy(3, 7, CellConstraints.FILL, CellConstraints.DEFAULT));
+        direccionClienteLabel = new JTextField();
+        panelClientes.add(direccionClienteLabel, cc.xy(3, 7, CellConstraints.FILL, CellConstraints.DEFAULT));
         // Etiqueta para Histórico de gasto
         final JLabel label4 = new JLabel();
         label4.setText("Histórico de gasto");
         panelClientes.add(label4, cc.xy(1, 9));
         // Etiqueta para mostrar el histórico
-        historicoGasto = new JLabel();
-        historicoGasto.setText("Label");
-        panelClientes.add(historicoGasto, cc.xy(3, 9));
+        historicoGastoTextfield = new JLabel();
+        historicoGastoTextfield.setText("Label");
+        panelClientes.add(historicoGastoTextfield, cc.xy(3, 9));
         // Botón para crear cliente
         crearClienteButton = new JButton();
         crearClienteButton.setText("Crear");
@@ -119,16 +125,17 @@ public class VentanaPrincipal {
         eliminarClienteButton.setText("Eliminar");
         panelClientes.add(eliminarClienteButton, cc.xy(1, 17));
         // Tabla para mostrar clientes
-        table1 = new JTable();
-        panelClientes.add(table1, cc.xywh(3, 11, 1, 9, CellConstraints.FILL, CellConstraints.FILL));
+        mostrarClienteTabla = new JTable();
+        JScrollPane scrollPaneClientes = new JScrollPane(mostrarClienteTabla);
+        panelClientes.add(scrollPaneClientes, cc.xywh(3, 11, 1, 9, CellConstraints.FILL, CellConstraints.FILL));
         // Etiqueta para ID
         final JLabel label5 = new JLabel();
         label5.setText("ID");
         panelClientes.add(label5, cc.xy(1, 1));
         // Etiqueta para mostrar ID
-        idCliente = new JLabel();
-        idCliente.setText("Label");
-        panelClientes.add(idCliente, cc.xy(3, 1));
+        idClienteTextfield = new JLabel();
+        idClienteTextfield.setText("Label");
+        panelClientes.add(idClienteTextfield, cc.xy(3, 1));
         // Crear el panel para Productos
         panelProducto = new JPanel();
         // Establecer el layout para el panel de Productos
@@ -206,12 +213,13 @@ public class VentanaPrincipal {
         label13.setText("Stock");
         panelProducto.add(label13, cc.xy(19, 1));
         // Etiqueta para mostrar Stock
-        stockProductoLabel = new JLabel();
-        stockProductoLabel.setText("Label");
-        panelProducto.add(stockProductoLabel, cc.xy(21, 1));
+        stockProductoTextfield = new JLabel();
+        stockProductoTextfield.setText("Label");
+        panelProducto.add(stockProductoTextfield, cc.xy(21, 1));
         // Tabla para mostrar productos
         mostrarProductoTabla = new JTable();
-        panelProducto.add(mostrarProductoTabla, cc.xywh(3, 11, 19, 7, CellConstraints.FILL, CellConstraints.FILL));
+        JScrollPane scrollPaneProductos = new JScrollPane(mostrarProductoTabla);
+        panelProducto.add(scrollPaneProductos, cc.xywh(3, 11, 19, 7, CellConstraints.FILL, CellConstraints.FILL));
         // Crear paneles vacíos para otras pestañas
         panelVentas = new JPanel();
         panelVentas.setLayout(new FormLayout("fill:d:grow", "center:d:grow"));
@@ -237,16 +245,32 @@ public class VentanaPrincipal {
 
     // Método para inicializar y mostrar la ventana
     public void initializeWindow() {
-        // Crear el marco de la ventana
         JFrame frame = new JFrame("Ventana Principal");
-        // Establecer el panel principal como contenido
         frame.setContentPane(panel1);
-        // Configurar el cierre de la aplicación al cerrar la ventana
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        // Maximizar la ventana para ocupar toda la pantalla
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        // Hacer visible la ventana
+        limpiarCliente();
+        limpiarProducto();
+        setTableModels();
         frame.setVisible(true);
     }
 
+    public void limpiarCliente() {
+        idClienteTextfield.setText("");
+        historicoGastoTextfield.setText("");
+    }
+    private void setTableModels() {
+        this.dtmClientes =  new DefaultTableModel();
+        this.mostrarClienteTabla.setModel(this.dtmClientes);
+
+        this.dtmProductos = new DefaultTableModel();
+        this.mostrarProductoTabla.setModel(this.dtmProductos);
+    }
+    public void limpiarProducto() {
+        idProductoTextfield.setText("");
+        stockProductoTextfield.setText("");
+    }
+
+
 }
+

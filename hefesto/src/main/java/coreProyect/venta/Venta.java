@@ -1,4 +1,4 @@
-package core.venta;
+package coreProyect.venta;
 
 import jakarta.persistence.*;
 
