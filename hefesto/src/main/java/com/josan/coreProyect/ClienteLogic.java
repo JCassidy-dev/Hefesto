@@ -1,6 +1,6 @@
-package coreProyect;
+package com.josan.coreProyect;
 
-import coreProyect.domain.Cliente;
+import com.josan.coreProyect.domain.Cliente;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -78,6 +78,10 @@ public class ClienteLogic {
 
     private static Cliente getCliente(HashMap<String, String> clienteData) {
         Cliente cliente = new Cliente();
+        String id = clienteData.get("id");
+        if (id != null && !id.isEmpty()) {
+            cliente.setId(Integer.parseInt(id));
+        }
         cliente.setNombre(clienteData.get("nombre"));
         cliente.setCif(clienteData.get("cif"));
         cliente.setDireccion(clienteData.get("direccion"));

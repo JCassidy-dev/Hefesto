@@ -1,8 +1,7 @@
-package coreProyect;
+package com.josan.coreProyect;
 
 import org.hibernate.SessionFactory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +29,9 @@ public class CorePublic {
         logicCliente.eliminarCliente(idCliente, sessionFactory);
 
     }
+    public void modificarCliente(HashMap<String, String> clienteData, SessionFactory sessionFactory) throws Exception {
+        logicCliente.modificarCliente(clienteData, sessionFactory);
+    }
 
 
     //PRODUCTO
@@ -46,5 +48,8 @@ public class CorePublic {
 
         logicProducto.eliminarProducto(idProducto, sessionFactory);
 
+    }
+    public void modificarProducto(HashMap<String, String> productoData, SessionFactory sessionFactory) throws Exception {
+        logicProducto.modificarProducto(productoData, sessionFactory);
     }
 }

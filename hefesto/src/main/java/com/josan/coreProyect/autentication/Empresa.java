@@ -1,4 +1,4 @@
-package coreProyect.autentication;
+package com.josan.coreProyect.autentication;
 
 import jakarta.persistence.*;
 

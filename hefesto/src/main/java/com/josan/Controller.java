@@ -2,9 +2,10 @@ package com.josan;
 
 import com.josan.util.Util;
 import com.josan.vistas.VentanaPrincipal;
-import coreProyect.CorePublic;
+import com.josan.coreProyect.CorePublic;
 import org.hibernate.SessionFactory;
 
+import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +19,7 @@ public class Controller implements ActionListener, ListSelectionListener {
 
     private VentanaPrincipal ventanaPrincipal;
     private CorePublic corePublic;
-
+    private boolean refrescar;
 
     //21/04/2026 De momento se queda así cuando implemente el log in del usuario veremos cambios
     public Controller(VentanaPrincipal ventanaPrincipal) {
@@ -28,6 +29,8 @@ public class Controller implements ActionListener, ListSelectionListener {
         construirTablaCliente(persistance.getSession());
         construirTablaProducto(persistance.getSession());
         persistance.eliminarConexion();
+        refrescar = false;
+        iniciar();
         addActionListener();
     }
 
@@ -82,11 +85,25 @@ public class Controller implements ActionListener, ListSelectionListener {
                 }
                 borrarCamposCliente();
                 construirTablaCliente( publicPersistance.getSession());
-                publicPersistance.eliminarConexion();
+
                 break;
             case "BUSCAR_CLIENTE":
+
                 break;
             case "MODIFICAR_CLIENTE":
+                if (validarClienteNoVacio()) {
+                    HashMap <String, String> datosCliente = crearCliente();
+                    try{
+                        corePublic.modificarCliente(datosCliente, publicPersistance.getSession());
+                    } catch (Exception exception){
+                        System.out.println(exception.getMessage());
+                        Util.showWarningAlert("Error al modificar el cliente");
+                    }
+                } else {
+                    Util.showWarningAlert("Error: Los campos de cliente no pueden estar vacíos");
+                }
+                borrarCamposCliente();
+                construirTablaCliente( publicPersistance.getSession());
                 break;
             case "LIMPIAR_CLIENTE":
                 borrarCamposCliente();
@@ -94,7 +111,7 @@ public class Controller implements ActionListener, ListSelectionListener {
             case "ELIMINAR_CLIENTE":
                 if (ventanaPrincipal.mostrarClienteTabla.getSelectedRow() == -1) {
                     Util.showWarningAlert("Error: Debe seleccionar un cliente de la tabla para eliminar");
-                    publicPersistance.eliminarConexion();
+
                     break;
                 }
                 try {
@@ -117,8 +134,7 @@ public class Controller implements ActionListener, ListSelectionListener {
                     try{
                         corePublic.crearProducto(datosProducto, publicPersistance.getSession());
                     } catch (Exception exception){
-                        System.out.println(exception.getMessage());
-                        Util.showWarningAlert("Error al crear el cliente");
+                        Util.showWarningAlert("Error al crear el producto\n" + exception.getMessage());
                     }
                 } else{
                     Util.showInfoAlert("Error: Los campos de producto no pueden estar vacíos");
@@ -127,6 +143,18 @@ public class Controller implements ActionListener, ListSelectionListener {
                 construirTablaProducto(publicPersistance.getSession());
                 break;
             case "MODIFICAR_PRODUCTO":
+                if (validarProductoNoVacio()) {
+                    HashMap <String, String> datosProducto = crearProducto();
+                    try{
+                        corePublic.modificarProducto(datosProducto, publicPersistance.getSession());
+                    } catch (Exception exception){
+                        Util.showWarningAlert("Error al modificar el producto el producto\n" + exception.getMessage());
+                    }
+                } else{
+                    Util.showInfoAlert("Error: Los campos de producto no pueden estar vacíos");
+                }
+                borrarCamposProducto();
+                construirTablaProducto(publicPersistance.getSession());
                 break;
             case "BUSCAR_PRODUCTO":
                 break;
@@ -139,8 +167,8 @@ public class Controller implements ActionListener, ListSelectionListener {
                     break;
                     }
                 try {
-                     int idProducto = Integer.parseInt(ventanaPrincipal.mostrarClienteTabla
-                             .getValueAt(ventanaPrincipal.mostrarClienteTabla.getSelectedRow(), 0).toString());
+                     int idProducto = Integer.parseInt(ventanaPrincipal.mostrarProductoTabla
+                             .getValueAt(ventanaPrincipal.mostrarProductoTabla.getSelectedRow(), 0).toString());
                      corePublic.borrarProducto(idProducto, publicPersistance.getSession());
                      Util.showInfoAlert("Producto eliminado correctamente");
                 } catch (NumberFormatException nfe) {
@@ -157,16 +185,65 @@ public class Controller implements ActionListener, ListSelectionListener {
         publicPersistance.eliminarConexion();
     }
 
+    void iniciar(){
+        // Configurar selección para tabla de clientes
+        ventanaPrincipal.mostrarClienteTabla.setCellSelectionEnabled(true);
+        ListSelectionModel cellSelectionModel = ventanaPrincipal.mostrarClienteTabla.getSelectionModel();
+        cellSelectionModel.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        cellSelectionModel.addListSelectionListener(this);
+
+        // Configurar selección para tabla de productos
+        ventanaPrincipal.mostrarProductoTabla.setCellSelectionEnabled(true);
+        ListSelectionModel cellSelectionModel2 = ventanaPrincipal.mostrarProductoTabla.getSelectionModel();
+        cellSelectionModel2.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        cellSelectionModel2.addListSelectionListener(this);
+    }
+
     @Override
     public void valueChanged(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting()) {
+            return; // Evitar procesamiento múltiple durante ajustes
+        }
 
+        ListSelectionModel source = (ListSelectionModel) e.getSource();
+
+        // Manejar selección en tabla de clientes
+        if (source.equals(ventanaPrincipal.mostrarClienteTabla.getSelectionModel())) {
+            if (!source.isSelectionEmpty()) {
+                int row = ventanaPrincipal.mostrarClienteTabla.getSelectedRow();
+                ventanaPrincipal.idClienteTextfield.setText(String.valueOf(ventanaPrincipal.mostrarClienteTabla.getValueAt(row, 0)));
+                ventanaPrincipal.nombreClienteLabel.setText(String.valueOf(ventanaPrincipal.mostrarClienteTabla.getValueAt(row, 1)));
+                ventanaPrincipal.cifClienteLabel.setText(String.valueOf(ventanaPrincipal.mostrarClienteTabla.getValueAt(row, 2)));
+                ventanaPrincipal.direccionClienteLabel.setText(String.valueOf(ventanaPrincipal.mostrarClienteTabla.getValueAt(row, 3)));
+                ventanaPrincipal.historicoGastoTextfield.setText(String.valueOf(ventanaPrincipal.mostrarClienteTabla.getValueAt(row, 4)));
+            } else if (!refrescar) {
+                borrarCamposCliente();
+            }
+        }
+        // Manejar selección en tabla de productos
+        else if (source.equals(ventanaPrincipal.mostrarProductoTabla.getSelectionModel())) {
+            if (!source.isSelectionEmpty()) {
+                int row = ventanaPrincipal.mostrarProductoTabla.getSelectedRow();
+                ventanaPrincipal.idProductoTextfield.setText(String.valueOf(ventanaPrincipal.mostrarProductoTabla.getValueAt(row, 0)));
+                ventanaPrincipal.nombreProductoLabel.setText(String.valueOf(ventanaPrincipal.mostrarProductoTabla.getValueAt(row, 1)));
+                ventanaPrincipal.descripcionProductoLabel.setText(String.valueOf(ventanaPrincipal.mostrarProductoTabla.getValueAt(row, 2)));
+                ventanaPrincipal.precioProductoLabel.setText(String.valueOf(ventanaPrincipal.mostrarProductoTabla.getValueAt(row, 3)));
+                ventanaPrincipal.productoSkuLabel.setText(String.valueOf(ventanaPrincipal.mostrarProductoTabla.getValueAt(row, 4)));
+                ventanaPrincipal.aliasProductoLabel.setText(String.valueOf(ventanaPrincipal.mostrarProductoTabla.getValueAt(row, 5)));
+                ventanaPrincipal.eanProductoLabel.setText(String.valueOf(ventanaPrincipal.mostrarProductoTabla.getValueAt(row, 6)));
+            } else if (!refrescar) {
+                borrarCamposProducto();
+            }
+        }
     }
 
     public HashMap <String,String> crearCliente() {
+        String id = ventanaPrincipal.idClienteTextfield.getText();
         String nombre = ventanaPrincipal.nombreClienteLabel.getText();
         String cif = ventanaPrincipal.cifClienteLabel.getText();
         String direccion = ventanaPrincipal.direccionClienteLabel.getText();
         HashMap<String, String> datosCliente = new HashMap<>();
+        datosCliente.put("id", id);
         datosCliente.put("nombre", nombre);
         datosCliente.put("cif", cif);
         datosCliente.put("direccion", direccion);
@@ -174,6 +251,7 @@ public class Controller implements ActionListener, ListSelectionListener {
     }
 
     public HashMap <String, String> crearProducto() {
+        String id = ventanaPrincipal.idProductoTextfield.getText();
         String nombre = ventanaPrincipal.nombreProductoLabel.getText();
         String descripcion = ventanaPrincipal.descripcionProductoLabel.getText();
         String precio = ventanaPrincipal.precioProductoLabel.getText();
@@ -222,6 +300,7 @@ public class Controller implements ActionListener, ListSelectionListener {
         ventanaPrincipal.descripcionProductoLabel.setText("");
         ventanaPrincipal.precioProductoLabel.setText("");
         ventanaPrincipal.aliasProductoLabel.setText("");
+        ventanaPrincipal.eanProductoLabel.setText("");
         ventanaPrincipal.productoSkuLabel.setText("");
         ventanaPrincipal.limpiarProducto();
     }
@@ -272,8 +351,13 @@ public class Controller implements ActionListener, ListSelectionListener {
 
         Object[] nombresColumnas = listadoDatos.get(0).keySet().toArray();
 
-        // 2. Crear el modelo con los encabezados
-        DefaultTableModel dtm = new DefaultTableModel(nombresColumnas, 0);
+        // 2. Crear el modelo con los encabezados (no editable)
+        DefaultTableModel dtm = new DefaultTableModel(nombresColumnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Las celdas no son editables
+            }
+        };
 
         // 3. Llenar las filas
         for (Map<String, String> fila : listadoDatos) {

@@ -2,14 +2,14 @@ package com.josan;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import coreProyect.domain.Cliente;
-import coreProyect.domain.Producto;
-import coreProyect.domain.Usuario;
+import com.josan.coreProyect.domain.Cliente;
+import com.josan.coreProyect.domain.Producto;
+import com.josan.coreProyect.domain.Usuario;
 import com.josan.pedido.Pedido;
 import com.josan.pedido.ProductoPedido;
 import com.josan.pedido.Proveedor;
-import coreProyect.venta.Venta;
-import coreProyect.venta.VentaProducto;
+import com.josan.coreProyect.venta.Venta;
+import com.josan.coreProyect.venta.VentaProducto;
 
 /**
  * Clase para manejar la persistencia con Hibernate.

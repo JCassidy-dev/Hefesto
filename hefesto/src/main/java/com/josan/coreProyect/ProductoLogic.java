@@ -1,6 +1,6 @@
-package coreProyect;
+package com.josan.coreProyect;
 
-import coreProyect.domain.Producto;
+import com.josan.coreProyect.domain.Producto;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -69,14 +69,32 @@ public class ProductoLogic {
         }
     }
 
-    private static Producto getProducto(HashMap<String, String> proudctoData) throws Exception {
+    private static Producto getProducto(HashMap<String, String> productoData) throws Exception {
         Producto producto = new Producto();
-        producto.setNombre(proudctoData.get("nombre"));
-        producto.setDescripcion(proudctoData.get("descripcion"));
-        producto.setPrecioTotal(BigDecimal.valueOf(Double.parseDouble(proudctoData.get("precioTotal"))));
-        producto.setSku(proudctoData.get("sku"));
-        producto.setAlias(proudctoData.get("alias"));
-        producto.setEan(proudctoData.get("ean"));
+        String id = productoData.get("id");
+        if (id != null && !id.isEmpty()) {
+            producto.setId(Integer.parseInt(id));
+        }
+        producto.setNombre(productoData.get("nombre"));
+        producto.setDescripcion(productoData.get("descripcion"));
+
+        String precioStr = productoData.get("precio");
+        if (precioStr == null || precioStr.trim().isEmpty()) {
+            throw new Exception("El precio no puede estar vacío");
+        }
+        try {
+            BigDecimal precio = new BigDecimal(precioStr.trim());
+            if (precio.compareTo(BigDecimal.ZERO) < 0) {
+                throw new Exception("El precio no puede ser negativo");
+            }
+            producto.setPrecioTotal(precio);
+        } catch (NumberFormatException e) {
+            throw new Exception("El precio debe ser un número válido: " + precioStr);
+        }
+
+        producto.setSku(productoData.get("sku"));
+        producto.setAlias(productoData.get("alias"));
+        producto.setEan(productoData.get("ean"));
         return producto;
     }
 

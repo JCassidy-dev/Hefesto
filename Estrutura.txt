@@ -8,39 +8,8 @@ la denominación es la siguiente: funcionalidadClaseCampotipo
 - Los campos donde no puedo escribir pero pinto información son Textfield
 - Las tablas son tables
 
-public void cargarTablaAutomatica() {
-    // 1. Consulta que devuelve una lista de mapas
-    List<Map<String, Object>> lista = session.createQuery("select new map(id as ID, nombre as Nombre, email as Email) from Cliente", Map.class).list();
 
-    if (lista.isEmpty()) return;
 
-    // 2. Extraer nombres de columnas automáticamente del primer registro
-    Object[] columnas = lista.get(0).keySet().toArray();
 
-    // 3. Crear el modelo con esas columnas
-    DefaultTableModel dtm = new DefaultTableModel(columnas, 0);
-
-    // 4. Llenar las filas dinámicamente
-    for (Map<String, Object> fila : lista) {
-        Object[] renglon = new Object[columnas.length];
-        for (int i = 0; i < columnas.length; i++) {
-            renglon[i] = fila.get(columnas[i]);
-        }
-        dtm.addRow(renglon);
-    }
-
-    // 5. Mostrar en la interfaz
-    vista.tablaClientes.setModel(dtm);
-}
-
-ahora haz este método automático para que genere un dtm genérico, recibe como parámetro el LastMap
-
-List<Map<String, Object>> miLista = session.createQuery("select new map(...)").list();
-
-// Llamas al método genérico
-DefaultTableModel modelo = generarDTMGenerico(miLista);
-
-// Lo aplicas a cualquier tabla
-vista.tablaCualquiera.setModel(modelo);
 
 

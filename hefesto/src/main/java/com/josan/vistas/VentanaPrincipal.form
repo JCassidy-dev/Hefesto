@@ -293,24 +293,6 @@
                   <text value=""/>
                 </properties>
               </component>
-              <component id="f4417" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                  <forms/>
-                </constraints>
-                <properties>
-                  <text value="Código"/>
-                </properties>
-              </component>
-              <component id="2fc10" class="javax.swing.JTextField" binding="productoSkuLabel">
-                <constraints>
-                  <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                  <forms defaultalign-horz="false"/>
-                </constraints>
-                <properties/>
-              </component>
               <component id="de9ab" class="javax.swing.JLabel">
                 <constraints>
                   <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -408,15 +390,6 @@
                 </constraints>
                 <properties>
                   <text value="Eliminar"/>
-                </properties>
-              </component>
-              <component id="f78e1" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="0" column="18" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                  <forms/>
-                </constraints>
-                <properties>
-                  <text value="Stock"/>
                 </properties>
               </component>
               <component id="9d31a" class="javax.swing.JLabel" binding="stockProductoTextfield">

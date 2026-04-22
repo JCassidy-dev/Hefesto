@@ -109,21 +109,24 @@ public class VentanaPrincipal {
         crearClienteButton = new JButton();
         crearClienteButton.setText("Crear");
         panelClientes.add(crearClienteButton, cc.xy(1, 11));
+        modificarClienteButton = new JButton();
+        modificarClienteButton.setText("Modificar");
+        panelClientes.add(modificarClienteButton, cc.xy(1, 13));
         // Campo de texto para Nombre
         nombreClienteLabel = new JTextField();
         panelClientes.add(nombreClienteLabel, cc.xy(3, 3, CellConstraints.FILL, CellConstraints.DEFAULT));
         // Botón para buscar cliente
         buscarClienteButton = new JButton();
         buscarClienteButton.setText("Buscar");
-        panelClientes.add(buscarClienteButton, cc.xy(1, 13));
+        panelClientes.add(buscarClienteButton, cc.xy(1, 15));
         // Botón para limpiar campos
         limpiarClienteButton = new JButton();
         limpiarClienteButton.setText("Limpiar");
-        panelClientes.add(limpiarClienteButton, cc.xy(1, 15));
+        panelClientes.add(limpiarClienteButton, cc.xy(1, 17));
         // Botón para eliminar cliente
         eliminarClienteButton = new JButton();
         eliminarClienteButton.setText("Eliminar");
-        panelClientes.add(eliminarClienteButton, cc.xy(1, 17));
+        panelClientes.add(eliminarClienteButton, cc.xy(1, 19));
         // Tabla para mostrar clientes
         mostrarClienteTabla = new JTable();
         JScrollPane scrollPaneClientes = new JScrollPane(mostrarClienteTabla);
@@ -189,6 +192,9 @@ public class VentanaPrincipal {
         crearProductoButton = new JButton();
         crearProductoButton.setText("Crear");
         panelProducto.add(crearProductoButton, cc.xy(1, 11));
+        modificarProductoButton= new JButton();
+        modificarProductoButton.setText("modificar");
+        panelProducto.add(crearProductoButton, cc.xy(1, 13));
         // Etiqueta para Precio
         final JLabel label12 = new JLabel();
         label12.setText("Precio");
@@ -199,15 +205,15 @@ public class VentanaPrincipal {
         // Botón para buscar producto
         buscarProductoButton = new JButton();
         buscarProductoButton.setText("Buscar");
-        panelProducto.add(buscarProductoButton, cc.xy(1, 13));
+        panelProducto.add(buscarProductoButton, cc.xy(1, 15));
         // Botón para limpiar campos de producto
         limpiarProductoButton = new JButton();
         limpiarProductoButton.setText("Limpiar");
-        panelProducto.add(limpiarProductoButton, cc.xy(1, 15));
+        panelProducto.add(limpiarProductoButton, cc.xy(1, 17));
         // Botón para eliminar producto
         eliminarProductoButton = new JButton();
         eliminarProductoButton.setText("Eliminar");
-        panelProducto.add(eliminarProductoButton, cc.xy(1, 17));
+        panelProducto.add(eliminarProductoButton, cc.xy(1, 19));
         // Etiqueta para Stock
         final JLabel label13 = new JLabel();
         label13.setText("Stock");

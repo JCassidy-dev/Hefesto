@@ -17,17 +17,17 @@
     <property name="hibernate.show_sql">true</property>
     <property name="hibernate.format_sql">true</property>
     <property name="hibernate.hbm2ddl.auto">update</property>
-    <mapping class="coreProyect.domain.Cliente"/>
-    <mapping class="coreProyect.autentication.Empresa"/>
+    <mapping class="com.josan.coreProyect.domain.Cliente"/>
+    <mapping class="com.josan.coreProyect.autentication.Empresa"/>
     <mapping class="com.josan.pedido.EstadoPedido"/>
     <mapping class="com.josan.pedido.Pedido"/>
-    <mapping class="coreProyect.domain.Producto"/>
+    <mapping class="com.josan.coreProyect.domain.Producto"/>
     <mapping class="com.josan.pedido.ProductoPedido"/>
     <mapping class="com.josan.pedido.Proveedor"/>
     <mapping class="com.josan.infordat.Tarifa"/>
-    <mapping class="coreProyect.domain.Usuario"/>
-    <mapping class="coreProyect.venta.Venta"/>
-    <mapping class="coreProyect.venta.VentaProducto"/>
+    <mapping class="com.josan.coreProyect.domain.Usuario"/>
+    <mapping class="com.josan.coreProyect.venta.Venta"/>
+    <mapping class="com.josan.coreProyect.venta.VentaProducto"/>
 
 
   </session-factory>
