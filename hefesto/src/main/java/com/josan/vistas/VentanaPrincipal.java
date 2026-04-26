@@ -268,7 +268,6 @@ public class VentanaPrincipal {
     private void setTableModels() {
         this.dtmClientes =  new DefaultTableModel();
         this.mostrarClienteTabla.setModel(this.dtmClientes);
-
         this.dtmProductos = new DefaultTableModel();
         this.mostrarProductoTabla.setModel(this.dtmProductos);
     }

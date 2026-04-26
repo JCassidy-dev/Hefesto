@@ -9,8 +9,10 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -313,14 +315,11 @@ public class Controller implements ActionListener, ListSelectionListener {
         // Obtener los datos de los clientes desde la lógica de negocio
         try {
             List<Map<String, String>> listadoClientes = corePublic.obtenerClientesTabla(sessionFactory);
-
-
-
-            // Generar el DefaultTableModel utilizando el método genérico
             DefaultTableModel dtmClientes = generarDTMGenerico(listadoClientes);
-
-            // Asignar el modelo a la tabla de clientes en la vista
+            TableRowSorter<DefaultTableModel> sortClientes = new TableRowSorter <> (dtmClientes);
+            sortClientes.setComparator(0, crearComparadorDeID());
             ventanaPrincipal.mostrarClienteTabla.setModel(dtmClientes);
+            ventanaPrincipal.mostrarClienteTabla.setRowSorter(sortClientes);
         } catch (Exception exception) {
             Util.showWarningAlert("Error al obtener los clientes de la tabla "+exception.getMessage());
         }
@@ -331,12 +330,11 @@ public class Controller implements ActionListener, ListSelectionListener {
     public void construirTablaProducto(SessionFactory sessionFactory) {
         try {
             List<Map<String, String>> listadoProducto = corePublic.obtenerProductosTabla(sessionFactory);
-
-            // Generar el DefaultTableModel utilizando el método genérico
             DefaultTableModel dtmProductos = generarDTMGenerico(listadoProducto);
-
-            // Asignar el modelo a la tabla de clientes en la vista
+            TableRowSorter<DefaultTableModel> sortProductos = new TableRowSorter <> (dtmProductos);
+            sortProductos.setComparator(0, crearComparadorDeID());
             ventanaPrincipal.mostrarProductoTabla.setModel(dtmProductos);
+            ventanaPrincipal.mostrarProductoTabla.setRowSorter(sortProductos);
         } catch (Exception exception) {
             Util.showWarningAlert("Error al obtener los productos de la tabla "+exception.getMessage());
         }
@@ -358,8 +356,6 @@ public class Controller implements ActionListener, ListSelectionListener {
                 return false; // Las celdas no son editables
             }
         };
-
-        // 3. Llenar las filas
         for (Map<String, String> fila : listadoDatos) {
             Object[] renglon = new Object[nombresColumnas.length];
 
@@ -371,4 +367,17 @@ public class Controller implements ActionListener, ListSelectionListener {
         }
         return dtm;
     }
+    //Método para crear un comparador que permita ordenar numéricamente las columnas de las tablas
+    private Comparator<Object> crearComparadorDeID() {
+        return (o1, o2) -> {
+            try {
+                Integer n1 = Integer.parseInt(o1.toString());
+                Integer n2 = Integer.parseInt(o2.toString());
+                return n1.compareTo(n2);
+            } catch (NumberFormatException e) {
+                return 0;
+            }
+        };
+    }
+
 }
